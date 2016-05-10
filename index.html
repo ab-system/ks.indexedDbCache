@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="components">
+<head>
+    <meta charset="UTF-8">
+    <title>indexedDbCacheFactory</title>
+</head>
+<body ng-controller="mainCtrl">
+
+
+<div>
+    <input type="number" ng-model="cacheId" /> <button ng-click="deleteDb">Delete db</button>
+</div>
+
+
+<div>cash info:</div>
+<div>id: {{lsCacheInfo.id}}</div>
+<div>size: {{lsCacheInfo.size}}</div>
+
+<div>
+<input type="number" ng-model="count" /> <button ng-click="addItems(count)">Add</button>
+</div>
+
+<div>
+    <input type="number" ng-model="findKey" /> <button ng-click="getItem(findKey)">Get item</button>
+
+    <div ng-show="itemInfo">
+        item info:
+        <div>key: {{itemInfo.key}}</div>
+        <div>value: {{itemInfo.value}}</div>
+    </div>
+</div>
+
+<div>
+    <button ng-click="getFirst()">Get first</button>
+
+    <div>
+        <span>key: {{first.key}}</span>
+        <span>value: {{first.value}}</span>
+    </div>
+</div>
+
+
+<div>
+<button ng-click="getAll()">Get all</button>
+
+<div ng-repeat="item in allItems">
+    <span>key: {{item.key}}</span>
+    <span>value: {{item.value}}</span>
+</div>
+</div>
+
+
+<div>
+    <button ng-click="getKeys()">Get keys</button>
+
+    <div ng-repeat="item in keys">
+        <span>key: {{item}}</span>
+    </div>
+</div>
+
+
+<div>
+    <button ng-click="removeAll()">Remove all</button>
+</div>
+
+
+
+
+<script type="text/javascript" src="Vendor/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="Vendor/lodash/lodash.js"></script>
+<script type="text/javascript" src="Vendor/angular/angular.js"></script>
+
+
+<script type="text/javascript" src="module.js"></script>
+<script type="text/javascript" src="indexedDbCache.js"></script>
+
+</body>
+</html>
