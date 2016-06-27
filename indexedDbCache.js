@@ -19,7 +19,7 @@ angular
         function connectDB(cacheId) {
             debug('Try connect to db. DbName: ' + cacheId);
             var defered = $q.defer();
-            var request = indexedDB.open(cacheId, 1);
+            var request = window.indexedDB.open(cacheId, 1);
             request.onerror = function(err){
                 defered.reject(err);
             };
@@ -28,7 +28,7 @@ angular
             };
             request.onupgradeneeded = function(e){
                 debug("Create object store.");
-                e.currentTarget.result.createObjectStore(_objectStore, { keyPath: "key" });
+                request.result.createObjectStore(_objectStore, { keyPath: "key" });
             };
             return defered.promise;
         }
@@ -89,11 +89,11 @@ angular
 
             me.get = function(key){
                 debug('Get item from cache. Key: ' + key + ' CacheId: ' + cacheId);
-                return exec('get', key)
+                return exec('get', key);
             };
 
             me.remove = function(key){
-                return exec('delete', key, 'readwrite')
+                return exec('delete', key, 'readwrite');
             }
 
             me.info = function() {
