@@ -24,10 +24,11 @@ angular
                 defered.reject(err);
             };
             request.onsuccess = function(){
+                debug('Connected. DbName: ' + cacheId);
                 defered.resolve(request.result);
             };
             request.onupgradeneeded = function(e){
-                debug("Create object store.");
+                debug('Create object store. DbName: ' + cacheId);
                 request.result.createObjectStore(_objectStore, { keyPath: "key" });
             };
             return defered.promise;
@@ -42,11 +43,22 @@ angular
 
         function cacheCtor(cacheId) {
 
+            /*
+             * запускаем создание кеша
+             * от позволяет избежать баги на win phone 8.1
+             * кода мы пытаемся асинхронно получить доступ к несуществоущей indexedDB
+             *
+             * закоменти эту строку и получишь ошибку при первой попытке залогиниться
+             */
+            connectDB(cacheId);
+
             function getRequest(method, args, mode){
                 var defered = $q.defer();
                 connectDB(cacheId)
                     .then(function(db){
-                        var transaction = db.transaction([_objectStore], mode ? mode : "readonly");
+                        var md = mode ? mode : "readonly";
+                        debug('Create transaction. DbName: ' + cacheId + ', mode: ' + md);
+                        var transaction = db.transaction([_objectStore], md);
                         var store = transaction.objectStore(_objectStore);
                         //проверка для IE
                         var request = args ? store[method](args) : store[method]();
